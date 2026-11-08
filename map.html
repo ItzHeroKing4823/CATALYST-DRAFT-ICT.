@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yangon Outbreak Map - CATALYST</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="catalyst.css">
+    <link rel="stylesheet" href="navbar.css">
+    <link rel="stylesheet" href="footer.css">
+    <link rel="stylesheet" href="map.css">
+</head>
+
+<body>
+
+    <header class="site-header">
+        <div class="wrap header-inner">
+
+            <a href="index.html" class="logo">
+                <img src="image/photo_2026-10-20_20-15-20.jpg" alt="CATALYST logo">
+                <span class="logo-text">CATALYST</span>
+            </a>
+
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+
+                    <li class="nav-dropdown">
+                        <a href="#" class="nav-drop-link">Explore</a>
+                        <ul class="nav-dropdown-menu">
+                            <li><a href="disease-library.html">Disease Library</a></li>
+                            <li><a href="symptom-checker.html">Symptom Checker</a></li>
+                            <li><a href="myth-vs-facts.html">Myth vs Fact</a></li>
+                            <li><a href="map.html">Outbreak Map</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-dropdown">
+                        <a href="#" class="nav-drop-link">Stay Safe</a>
+                        <ul class="nav-dropdown-menu">
+                            <li><a href="hospital-directory.html">Yangon Hospital Directory</a></li>
+                            <li><a href="references.html">Medical References</a></li>
+                            <li><a href="faq.html">FAQ</a></li>
+                            <li><a href="emergency-protocol.html">Emergency Protocol</a></li>
+                        </ul>
+                    </li>
+
+                    <li><a href="catalyst-book-care.html">Book Care</a></li>
+                    <li><a href="about_us.html">About Us</a></li>
+                    <li><a href="contact_us.html">Contact</a></li>
+                </ul>
+            </nav>
+
+            <div class="header-buttons" id="headerButtons">
+                <a href="#" class="nav-btn nav-btn-white signin-link">Sign In</a>
+                <a href="#" class="nav-btn nav-btn-teal signup-link">Sign Up</a>
+            </div>
+
+            <button class="menu-btn" id="menuBtn" type="button" aria-label="Menu" aria-expanded="false" aria-controls="mobileMenu">&#9776;</button>
+        </div>
+
+                <div class="mobile-menu" id="mobileMenu">
+            <div class="wrap">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+
+                    <li class="mobile-label">Explore</li>
+                    <li><a href="disease-library.html">Disease Library</a></li>
+                    <li><a href="symptom-checker.html">Symptom Checker</a></li>
+                    <li><a href="myth-vs-facts.html">Myth vs Fact</a></li>
+                    <li><a href="map.html">Outbreak Map</a></li>
+
+                    <li class="mobile-label">Stay Safe</li>
+                    <li><a href="hospital-directory.html">Yangon Hospital Directory</a></li>
+                    <li><a href="references.html">Medical References</a></li>
+                    <li><a href="faq.html">FAQ</a></li>
+                    <li><a href="emergency-protocol.html">Emergency Protocol</a></li>
+
+                    <li class="mobile-label">More</li>
+                    <li><a href="catalyst-book-care.html">Book Care</a></li>
+                    <li><a href="about_us.html">About Us</a></li>
+                    <li><a href="contact_us.html">Contact Us</a></li>
+                </ul>
+
+                <div class="mobile-auth" id="mobileAuth">
+                    <a href="#" class="nav-btn nav-btn-white signin-link">Sign In</a>
+                    <a href="#" class="nav-btn nav-btn-teal signup-link">Sign Up</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero-small">
+        <div class="wrap">
+            <span class="badge badge-dark">Yangon Health Alerts</span>
+            <h1>Yangon Outbreak Map</h1>
+            <p>
+                Click a township area on the map of Yangon city to see the outbreaks and health risks reported there,
+                based on public reports from the Ministry of Health, WHO and the UN Health Cluster.
+            </p>
+            <p class="clock-line">Yangon time now: <strong id="yangonClock">--:--:--</strong></p>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="wrap map-layout">
+
+            <div class="map-wrap">
+                <div class="map-filters" id="mapFilters">
+                    <button type="button" class="filter-btn active" data-tag="all">All townships</button>
+                    <button type="button" class="filter-btn" data-tag="alert">Outbreak Aug 2026</button>
+                    <button type="button" class="filter-btn" data-tag="earlier">Outbreak 2024</button>
+                    <button type="button" class="filter-btn" data-tag="watch">No alert</button>
+                </div>
+
+                <div class="map-tools">
+                    <span class="map-hover" id="hoverName" aria-hidden="true"></span>
+                    <div class="zoom-box">
+                        <button type="button" id="zoomOut" class="zoom-btn" aria-label="Zoom out" disabled>&minus;</button>
+                        <span id="zoomText" class="zoom-text">1x</span>
+                        <button type="button" id="zoomIn" class="zoom-btn" aria-label="Zoom in">+</button>
+                    </div>
+                </div>
+
+                <svg id="map" viewBox="0 0 640 600" role="group" aria-label="Map of the 33 townships of Yangon city. Select a township area to read its health information."></svg>
+
+                <ul class="map-legend">
+                    <li><span class="dot dot-alert"></span> Outbreak reported (Aug 2026)</li>
+                    <li><span class="dot dot-earlier"></span> Outbreak reported in 2024</li>
+                    <li><span class="dot dot-watch"></span> No township alert</li>
+                </ul>
+                <p class="map-note">Click or tap a township area to see its information. The borders are drawn from the middle point of each township, so they are approximate. The four downtown townships are very small, so press + to zoom in on the selected township or use the township buttons below the map. North is at the top.</p>
+            </div>
+
+            <div class="map-side">
+                <label for="regionSelect" class="map-label">Choose a Yangon township</label>
+                <select id="regionSelect"></select>
+
+                <div class="info-box" id="infoBox" aria-live="polite">
+                    <span class="level-tag" id="regionLevel" hidden></span>
+                    <h2 id="regionTitle">Select a township</h2>
+                    <p id="regionIntro">Click a township area on the map or use the list above.</p>
+                    <ul id="regionItems" class="item-list"></ul>
+                    <p id="regionAdvice" class="advice" hidden></p>
+                    <p><a id="regionLink" href="hospital-directory.html" class="btn btn-navy btn-small">Find hospitals in this township</a></p>
+                </div>
+
+                <p class="map-note">
+                    <strong id="alertCount">4</strong> townships are named in the August 2026 cholera reports. The reports named only some of the
+                    nine townships affected, so a township with no alert may simply not have been named.
+                    This page is not a live feed. It was last reviewed on <strong id="updatedDate"></strong>.
+                    Always follow the latest announcements from the
+                    <a href="https://www.mohs.gov.mm/" target="_blank" rel="noopener">Ministry of Health</a>
+                    and <a href="https://www.who.int/countries/mmr" target="_blank" rel="noopener">WHO Myanmar</a>.
+                    See the <a href="references.html">Medical References</a> page for every source.
+                </p>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="wrap">
+            <div class="chip-head">
+                <h2>All 33 townships</h2>
+                <p id="filterCount" class="map-note"></p>
+            </div>
+            <div id="townshipChips" class="chip-list"></div>
+        </div>
+    </section>
+
+    <section class="section section-grey">
+        <div class="wrap">
+            <div data-aos="fade-up" class="section-head">
+                <span class="badge">Whole of Yangon</span>
+                <h2>Health Risks Across Yangon</h2>
+                <div class="line"></div>
+                <p>These Myanmar figures also apply to every township in Yangon city.</p>
+            </div>
+            <div class="grid" id="nationalList"></div>
+        </div>
+    </section>
+
+    <footer class="site-footer">
+        <div class="wrap">
+            <div class="footer-grid">
+
+                <div>
+                    <h4>Quick Links</h4>
+                    <div class="footer-underline"></div>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="disease-library.html">Disease Library</a></li>
+                        <li><a href="symptom-checker.html">Symptom Checker</a></li>
+                        <li><a href="myth-vs-facts.html">Myth vs Fact</a></li>
+                        <li><a href="map.html">Outbreak Map</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4>Resources</h4>
+                    <div class="footer-underline"></div>
+                    <ul>
+                        <li><a href="hospital-directory.html">Hospital Directory</a></li>
+                        <li><a href="references.html">Medical References</a></li>
+                        <li><a href="faq.html">FAQ</a></li>
+                        <li><a href="emergency-protocol.html">Emergency Protocol</a></li>
+                        <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                        <li><a href="about_us.html">About CATALYST</a></li>
+                        <li><a href="contact_us.html">Contact Us</a></li>
+                        <li><a href="#" class="signin-link">Sign In</a></li>
+                        <li><a href="#" class="signup-link">Sign Up</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4>Connect</h4>
+                    <div class="footer-underline"></div>
+                    <p>
+                        Knowledge creates awareness. Awareness creates change.
+                        Explore reliable information about infectious diseases and
+                        help build safer communities.
+                    </p>
+
+                    <form id="footerForm" class="footer-form">
+                        <label for="footerEmail" class="footer-hidden">Email address</label>
+                        <input type="email" id="footerEmail" placeholder="Enter your email">
+                        <button type="submit" class="nav-btn nav-btn-teal">Stay Informed</button>
+                    </form>
+
+                    <p id="footerMessage" class="footer-message">Reliable information. A healthier future.</p>
+
+                    <p>
+                        <a href="https://www.who.int/" target="_blank" rel="noopener">WHO</a> |
+                        <a href="https://www.mohs.gov.mm/" target="_blank" rel="noopener">MoHS Myanmar</a> |
+                        <a href="contact_us.html">Email us</a>
+                    </p>
+                </div>
+
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; <span id="footerYear">2026</span> CATALYST. All rights reserved.</p>
+                <nav>
+                    <a href="references.html">References</a>
+                    <a href="privacy-policy.html">Privacy</a>
+                    <a href="about_us.html">About</a>
+                    <a href="contact_us.html">Contact</a>
+                    <a href="#" class="signin-link">Sign In</a>
+                </nav>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="script.js"></script>
+    <script src="auth.js"></script>
+    <script src="outbreak-data.js"></script>
+    <script src="township-shapes.js"></script>
+    <script src="map.js"></script>
+
+</body>
+</html>
